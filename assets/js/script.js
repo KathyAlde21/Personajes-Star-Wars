@@ -1,29 +1,54 @@
 //console.log('probando');
 //alert(`Bienvenido: Para revisar los personajes debe deslizar el mouse sobre la sección de su interes.`);
-var clickUno = document.querySelector('#evento1')
-var clickDos = document.querySelector('#evento2')
-var clickTres = document.querySelector('#evento3')
+var clickUno = document.querySelector('#evento1');
+var clickDos = document.querySelector('#evento2');
+var clickTres = document.querySelector('#evento3');
 
-class Persona{
-    constructor(nombre, altura, peso){
-        this.nombre = nombre;
-        this.altura = altura;
-        this.peso = peso;
-    }
+function Personajes(nombre, altura, peso) {
+  //  this.personaje = [];
+    this.nombre = nombre;
+    this.altura = altura;
+    this.peso = peso;
 }
 
-/* -- */
 
+//
+
+/*
 function getPersonaje(done){
     const results = fetch ('https://swapi.dev/api/people/');
     results
         .then(response => response.json())
         .then(data => {
-           console.log(data);
-          // done(data)
+           // console.log(data);
+           done(data)
         });   
 }
-getPersonaje();
+getPersonaje(data => {
+    data.results.forEach(personaje => {
+        const contenedor = document.createRange().createContextualFragment(
+        `
+        <div id="personajesUno"  class="col">
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-2">
+                        <img id="circulo" src="assets/img/rojo.png" class="rounded m-3">
+                    </div>
+                    <div class="col-md-10">
+                        <div id="card1" class="card-body">
+                            <h2 id="nombreUno" class="card-title">${personaje.nombre}</h2>
+                            <p id="estaturaPesoUno" class="card-text">Estatura: ${personaje.altura} cm. Peso: ${personaje.peso} kg</p>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        </div>
+        `);
+        //lo mando al main para que lo muestre
+        const personaje1 = document.getElementById('personajesUno');
+        personaje1.append(contenedor);
+    });
+});*/
 
 
 /*
@@ -38,8 +63,9 @@ const consultarAPI = (url) => {
     })
 }*/
 
-/*
-const getPersonaje = (id) => {
+
+
+function getPersonaje (id) {
     return new Promise(async(resolve, reject) => { //para asegurarme de manejo de errores => try catch
         try {
             let url = 'https://swapi.dev/api/people/';
@@ -54,8 +80,9 @@ const getPersonaje = (id) => {
            reject();
        }
    });
-}
+};
 //getPersonaje(1); //para probar con console.log(data);*/
+
 
 //función generadora, cada vez que genero pasa a la siguiente estacion
 function* generator1() {
@@ -102,12 +129,7 @@ function eventoClickUno(){
         <p id="estaturaPesoUno" class="card-text">${estatura.persona} ${peso.persona}</p>
         `;
     
-    
-     
-    
-
-
-}
+}*/
 
 
 
@@ -129,11 +151,10 @@ $(document).ready(function(){
     })
 })
 
-*/
+
 
 
 /*
 clickUno.addEventListener('click', eventoClickUno);
 clickDos.addEventListener('click', eventoClickDos);
-clickDos.addEventListener('click', eventoClickTres);
-*/
+clickDos.addEventListener('click', eventoClickTres);*/
