@@ -63,9 +63,6 @@ console.log(generadoraDos.next()); //6
 console.log(generadoraTres.next()); //12
 */
 
-
-
-
 /* ------------------------------------------------ */
 
 //cargando datos y creando card
@@ -76,7 +73,7 @@ let contTres = document.getElementById('personajeTres');
 
 const eventoClickUno = (personaje) => {
     contUno.innerHTML += 
-        `<div class="card mb-3">
+        `<div class="card mb-3 mt-3">
             <div class="row g-0">
                 <div class="col-md-2">
                     <img id="circulo" src="assets/img/rojo.png" class="rounded m-3">
@@ -94,7 +91,7 @@ const eventoClickUno = (personaje) => {
   
 const eventoClickDos = (personaje) => {
     contDos.innerHTML += 
-        `<div class="card mb-3">
+        `<div class="card mb-3 mt-3">
             <div class="row g-0">
                 <div class="col-md-2">
                     <img id="circulo" src="assets/img/verde.png" class="rounded m-3">
@@ -112,7 +109,7 @@ console.log(eventoClickDos);
 
 const eventoClickTres = (personaje) => {
     contTres.innerHTML += 
-        `<div class="card mb-3">
+        `<div class="card mb-3 mt-3">
             <div  class="row g-0">
                 <div class="col-md-2">
                     <img id="circulo" src="assets/img/celeste.png" class="rounded m-3">
