@@ -1,160 +1,201 @@
-//console.log('probando');
+console.log('probando');
+//'https://swapi.dev/api/people/'
 //alert(`Bienvenido: Para revisar los personajes debe deslizar el mouse sobre la sección de su interes.`);
-var clickUno = document.querySelector('#evento1');
-var clickDos = document.querySelector('#evento2');
-var clickTres = document.querySelector('#evento3');
 
-function Personajes(nombre, altura, peso) {
-  //  this.personaje = [];
+let urlST = 'https://swapi.dev/api/people/';
+
+function Personaje(nombre, estatura, peso) {
     this.nombre = nombre;
-    this.altura = altura;
+    this.estatura = estatura;
     this.peso = peso;
 }
 
-
-//
-
-/*
-function getPersonaje(done){
-    const results = fetch ('https://swapi.dev/api/people/');
-    results
-        .then(response => response.json())
-        .then(data => {
-           // console.log(data);
-           done(data)
-        });   
+const getData = async (id) => {
+    let response = await fetch(urlST + id);
+    let data = await response.json();
+    let { name: nombre, height: estatura, mass: peso } = data;
+    let nuevoPersonaje = new Personaje(nombre, estatura, peso);
+    console.log(nuevoPersonaje);
+    return nuevoPersonaje;
 }
-getPersonaje(data => {
-    data.results.forEach(personaje => {
-        const contenedor = document.createRange().createContextualFragment(
-        `
-        <div id="personajesUno"  class="col">
-            <div class="card mb-3">
-                <div class="row g-0">
-                    <div class="col-md-2">
-                        <img id="circulo" src="assets/img/rojo.png" class="rounded m-3">
-                    </div>
-                    <div class="col-md-10">
-                        <div id="card1" class="card-body">
-                            <h2 id="nombreUno" class="card-title">${personaje.nombre}</h2>
-                            <p id="estaturaPesoUno" class="card-text">Estatura: ${personaje.altura} cm. Peso: ${personaje.peso} kg</p>
-                        </div>
-                    </div>
-                </div>
-            </div>    
-        </div>
-        `);
-        //lo mando al main para que lo muestre
-        const personaje1 = document.getElementById('personajesUno');
-        personaje1.append(contenedor);
-    });
-});*/
 
-
-/*
-const url = 'https://swapi.dev/api/people';
-
-const consultarAPI = (url) => {
-    return new Promise((resolve, reject) => {
-        fetch(url).then(resp => resp.json()).then(data => {
-            console.log(data);
-            resolve(data)
-        })
-    })
-}*/
-
-
-
-function getPersonaje (id) {
-    return new Promise(async(resolve, reject) => { //para asegurarme de manejo de errores => try catch
-        try {
-            let url = 'https://swapi.dev/api/people/';
-            let response = await fetch(url);
-            let data = await response.json();
-           // console.log(data); //para probar y se ve en consola web
-           //para ver los datos de class los piso acá primero
-           let {name, heigth, mass} = data; //nombre, altura, peso
-           let nuevoPersonaje = new Persona(name, heigth, mass);
-           resolve(nuevoPersonaje);    
-       } catch (error) {
-           reject();
-       }
-   });
-};
-//getPersonaje(1); //para probar con console.log(data);*/
-
+/* ------------------------------------------------ */
 
 //función generadora, cada vez que genero pasa a la siguiente estacion
-function* generator1() {
-    yield getPersonaje(1);
-    yield getPersonaje(2);
-    yield getPersonaje(3);
-    yield getPersonaje(4);
-    yield getPersonaje(5);
+function* counter (idInicio, idTermino) {
+    for (let i = idInicio; i <= idTermino; i++) {
+        yield getData(i);
+    }
 }
+let generadora = counter();
 
-function* generator2() {
-    yield getPersonaje(6);
-    yield getPersonaje(7);
-    yield getPersonaje(8);
-    yield getPersonaje(9);
-    yield getPersonaje(10);
-   // yield getPersonaje(11);
+/*
+function* counterUno (idInicio, idTermino) {
+    for (let i = idInicio; i <= idTermino; i++) {
+        yield getData(i);
+    }
 }
-function* generator3() {
-    yield getPersonaje(12);
-    yield getPersonaje(13);
-    yield getPersonaje(14);
-    yield getPersonaje(15);
-    yield getPersonaje(16);
-  //  yield getPersonaje(17);
+let generadoraUno = counterUno(1, 5);
+
+function* counterDos (idInicio, idTermino) {
+    for (let i = idInicio; i <= idTermino; i++) {
+        yield getData(i);
+    }
 }
+let generadoraDos = counterDos(6, 11);
 
-const genUno = generator1(); // "Generator { }"
-const genDos = generator2(); // "Generator { }"
-const genTres = generator3(); // "Generator { }"
 
-console.log(genUno.next());
+function* counterTres (idInicio, idTermino) {
+    for (let i = idInicio; i <= idTermino; i++) {
+        yield getData(i);
+    }
+}
+let generadoraTres = counterTres(12, 17);
+
+//validando en consola
+console.log(generadoraUno.next()); //1
+console.log(generadoraUno.next()); //2
+console.log(generadoraUno.next()); //3
+console.log(generadoraUno.next()); //4
+console.log(generadoraUno.next()); //5
+console.log(generadoraUno.next()); //true
+console.log(generadoraDos.next()); //6
+console.log(generadoraTres.next()); //12
+*/
+
+
+
+
+/* ------------------------------------------------ */
+
+//cargando datos y creando card
+let contUno = document.getElementById('personajeUno');
+let contDos = document.getElementById('personajeDos');
+let contTres = document.getElementById('personajeTres');
+
+
+const eventoClickUno = (personaje) => {
+    contUno.innerHTML += 
+        `<div class="card mb-3">
+            <div class="row g-0">
+                <div class="col-md-2">
+                    <img id="circulo" src="assets/img/rojo.png" class="rounded m-3">
+                </div>
+                <div class="col-md-10">
+                    <div id="card1" class="card-body">
+                        <h2 id="nombreUno" class="card-title">${personaje.nombre}</h2>
+                        <p id="estaturaPesoUno" class="card-text">Estatura: ${personaje.estatura} cm. Peso: ${personaje.peso} kg</p>
+                    </div>
+                </div>
+            </div>
+        </div>`;  
+    console.log(eventoClickUno);      
+};
+  
+const eventoClickDos = (personaje) => {
+    contDos.innerHTML += 
+        `<div class="card mb-3">
+            <div class="row g-0">
+                <div class="col-md-2">
+                    <img id="circulo" src="assets/img/verde.png" class="rounded m-3">
+                </div>
+                <div class="col-md-10">
+                    <div id="card1" class="card-body">
+                        <h2 id="nombreDos" class="card-title">${personaje.nombre}</h2>
+                        <p id="estaturaPesoDos" class="card-text">Estatura: ${personaje.estatura} cm. Peso: ${personaje.peso} kg</p>
+                    </div>
+                </div>
+            </div>
+        </div>`;  
+console.log(eventoClickDos);      
+};
+
+const eventoClickTres = (personaje) => {
+    contTres.innerHTML += 
+        `<div class="card mb-3">
+            <div  class="row g-0">
+                <div class="col-md-2">
+                    <img id="circulo" src="assets/img/celeste.png" class="rounded m-3">
+                </div>
+                <div class="col-md-10">
+                    <div id="card1" class="card-body">
+                        <h2 id="nombreTres" class="card-title">${personaje.nombre}</h2>
+                        <p id="estaturaPesoTres" class="card-text">Estatura: ${personaje.estatura} cm. Peso: ${personaje.peso} kg</p>
+                    </div>
+                </div>
+            </div>
+        </div>`;  
+    console.log(eventoClickTres);      
+};
+
+/* ------------------------------------------------ */
+
+//llamando al personaje desde línea de tiempo
+evento1.addEventListener('click', async () => {
+    let resultado = generadora.next();
+    if (resultado.done) {
+        generadora = counter(1, 5);
+        contUno.innerHTML = '';
+    } else {
+        let personaje = await resultado.value;
+        eventoClickUno(personaje);
+    }
+});
+
+evento2.addEventListener('click', async () => {
+    let resultado = generadora.next();
+    if (resultado.done) {
+        generadora = counter(6, 11);
+        contDos.innerHTML = '';
+    } else {
+        let personaje = await resultado.value;
+        eventoClickDos(personaje);
+    }
+});
+
+evento3.addEventListener('click', async () => {
+    let resultado = generadora.next();
+    if (resultado.done) {
+        generadora = counter(12, 17);
+        contTres.innerHTML = '';
+    } else {
+        let personaje = await resultado.value;
+        eventoClickTres(personaje);
+    }
+});
 
 
 /*
-function eventoClickUno(){
-    var cardUno = document.querySelector('#card1');
-    var nombreUno = document.querySelector('#nombreUno');
-    var medidasUno = document.querySelector('#estaturaPesoUno');
-    let personaje1 
+evento1.addEventListener('click', async () => {
+    let resultado = generadoraUno.next();
+    if (resultado.done) {
+        generadoraUno = counterUno(1, 5);
+        contUno.innerHTML = '';
+    } else {
+        let personaje = await resultado.value;
+        eventoClickUno(personaje);
+    }
+});
 
-        `
-        <h2 id="nombreUno" class="card-title">${nombre.persona}</h2>
-        <p id="estaturaPesoUno" class="card-text">${estatura.persona} ${peso.persona}</p>
-        `;
-    
-}*/
+evento2.addEventListener('click', async () => {
+    let resultado = generadoraDos.next();
+    if (resultado.done) {
+        generadoraDos = counterDos(6, 11);
+        contDos.innerHTML = '';
+    } else {
+        let personaje = await resultado.value;
+        eventoClickDos(personaje);
+    }
+});
 
-
-
-
-
-
-
-$(document).ready(function(){
-    $('#evento1').mouseenter(function() {
-        genUno.next()
-    })
-
-    $('#evento2').mouseenter(function() {
-        genDos.next()
-    })
-
-    $('#evento3').mouseenter(function() {
-        genTres.next()
-    })
-})
-
-
-
-
-/*
-clickUno.addEventListener('click', eventoClickUno);
-clickDos.addEventListener('click', eventoClickDos);
-clickDos.addEventListener('click', eventoClickTres);*/
+evento3.addEventListener('click', async () => {
+    let resultado = generadoraTres.next();
+    if (resultado.done) {
+        generadoraTres = counterTres(12, 17);
+        contTres.innerHTML = '';
+    } else {
+        let personaje = await resultado.value;
+        eventoClickTres(personaje);
+    }
+});
+*/
